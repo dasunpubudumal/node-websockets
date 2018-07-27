@@ -44,14 +44,18 @@ const sendHeartbeatAck = (ws) => {
 // TODO: Implement parsing of received metrics.
 const parseReceivedMetrics = (metrics) => {};
 
+// Event handlers listed here onwards.
+// TODO: Get the combination of <PORT + HOST> as the nodeId to distinguish nodes.
 wss.on('connection', (ws, req) => {
     setNode({"nodeIp": req["connection"]["remoteAddress"]});
     ws.on('message', (data) => {
         let message = JSON.parse(data);
         if (message["messageType"] === METRIC) {
             console.log(message);
+            logger.log("info", JSON.stringify(message));
         } else if (message["messageType"] === HEARTBEAT) {
             console.log("Ping message received from " + req["connection"]["remoteAddress"]);
+            logger.log("info", JSON.stringify(message));
             sendHeartbeatAck(ws);
         }
     });

@@ -11,6 +11,7 @@ const ws = new WebSocket(config["ws-config"]["host"], {
     perMessageDeflate: false
 });
 
+// Start sending the heartbeat to the server periodically.
 const startHeartBeat = (pingInterval, pingTimeout) => {
     setWsHeartbeat(ws, JSON.stringify(HEARTBEATMESSAGE) , {
         pingTimeout: pingTimeout,
@@ -18,6 +19,7 @@ const startHeartBeat = (pingInterval, pingTimeout) => {
     });
 };
 
+// Send metrics to the server periodically.
 const sendMetrics = (websocket) => {
     let id = setInterval(function () {
         let sysMetrics = metrics();
@@ -28,13 +30,13 @@ const sendMetrics = (websocket) => {
     }, 2000);
 };
 
-// On opening the websocket
+// On opening the websocket.
 ws.on('open', () => {
     startHeartBeat(3000, 60000);
     sendMetrics(ws);
 });
 
-// On receiving messages to websocket
+// On receiving messages to websocket.
 ws.on('message', (data) => {
     let message = JSON.parse(data);
     if(message["messageType"] === HEARTBEATACK) {
