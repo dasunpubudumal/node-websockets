@@ -51,7 +51,7 @@ wss.on('connection', (ws, req) => {
         if (message["messageType"] === METRIC) {
             console.log(message);
         } else if (message["messageType"] === HEARTBEAT) {
-            console.log("Ping message received.");
+            console.log("Ping message received from " + req["connection"]["remoteAddress"]);
             sendHeartbeatAck(ws);
         }
     });

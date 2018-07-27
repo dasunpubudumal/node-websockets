@@ -19,16 +19,18 @@ const startHeartBeat = (pingInterval, pingTimeout) => {
 };
 
 const sendMetrics = (websocket) => {
-    let sysMetrics = metrics();
-    sysMetrics["messageType"] = "metric";
-    websocket.send(JSON.stringify(sysMetrics), (error) => {
-        if (error) throw error;
-    });
+    let id = setInterval(function () {
+        let sysMetrics = metrics();
+        sysMetrics["messageType"] = "metric";
+        websocket.send(JSON.stringify(sysMetrics), (error) => {
+            if (error) throw error;
+        });
+    }, 2000);
 };
 
 // On opening the websocket
 ws.on('open', () => {
-    startHeartBeat(2000, 60000);
+    startHeartBeat(3000, 60000);
     sendMetrics(ws);
 });
 
