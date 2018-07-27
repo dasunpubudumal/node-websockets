@@ -1,6 +1,6 @@
 # node-websockets
 
-*Setup Instructions*
+**Setup Instructions**
 
 Do an `npm install` inside both `client` and root directories.
 
