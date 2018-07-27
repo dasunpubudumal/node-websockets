@@ -1,5 +1,9 @@
 # node-websockets
 
+## Introduction
+
+This application is to monitor node servers. Help through PRs is appreciated.
+
 **Setup Instructions**
 
 Do an `npm install` inside both `client` and root directories.

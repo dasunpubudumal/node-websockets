@@ -1,8 +1,5 @@
 const WebSocket = require('ws');
 const winston = require('winston'); // For logging purposes.
-const {
-    setWsHeartbeat
-} = require('ws-heartbeat/server');
 const config = require('./config/config.json');
 const {
     METRIC,
@@ -30,19 +27,8 @@ const logger = winston.createLogger({
 let nodeMap = [];
 
 const wss = new WebSocket.Server(config["wss-conf"], () => {
-    console.log("WSS Successfull Started!");
+    console.log("WSS Successfully Started!");
 });
-
-// Temporary function
-const startHeartbeatAck = (pongTimeout) => {
-    setWsHeartbeat(wss, (ws, data, binary) => {
-        if (data === '{"messageType": "heartbeat"}') {
-            ws.send('{"messageType": "heartbeat"}');
-        } else {
-            console.log('Invalid ping message.');
-        }
-    }, pongTimeout);
-};
 
 // Set node information.
 const setNode = (node) => {
@@ -56,11 +42,10 @@ const sendHeartbeatAck = (ws) => {
 };
 
 // TODO: Implement parsing of received metrics.
-const parseReceivedMetrics = (metrics) => {}
+const parseReceivedMetrics = (metrics) => {};
 
 wss.on('connection', (ws, req) => {
-    let nodeIp = req.connection.remoteAddress;
-    setNode({"nodeIp": nodeIp});
+    setNode({"nodeIp": req["connection"]["remoteAddress"]});
     ws.on('message', (data) => {
         let message = JSON.parse(data);
         if (message["messageType"] === METRIC) {
