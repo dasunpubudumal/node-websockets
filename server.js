@@ -42,18 +42,18 @@ const startHeartbeatAck = (pongTimeout) => {
             console.log('Invalid ping message.');
         }
     }, pongTimeout);
-}
+};
 
 // Set node information.
 const setNode = (node) => {
     nodeMap.push(node);
     logger.log( "info" , "Node " + node["nodeIp"] + " was added to the node map.");
-}
+};
 
 // Send the acknowledgement for the heartbeat.
 const sendHeartbeatAck = (ws) => {
     ws.send(JSON.stringify(HEARTBEATACKMESSAGE));
-}
+};
 
 // TODO: Implement parsing of received metrics.
 const parseReceivedMetrics = (metrics) => {}
