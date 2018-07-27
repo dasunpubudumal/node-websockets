@@ -13,4 +13,4 @@ _Note:_ The root folder is the server folder. Everything related to the client r
 ### Tasks
 
 - [x] Heartbeat implementation
-- [ ] Metrics transmission periodically
+- [x] Metrics transmission periodically

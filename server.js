@@ -45,7 +45,7 @@ const sendHeartbeatAck = (ws) => {
 const parseReceivedMetrics = (metrics) => {};
 
 // Event handlers listed here onwards.
-// TODO: Get the combination of <PORT + HOST> as the nodeId to distinguish nodes.
+// TODO: Get the port that the client is connecting from.
 wss.on('connection', (ws, req) => {
     setNode({"nodeIp": req["connection"]["remoteAddress"]});
     ws.on('message', (data) => {
