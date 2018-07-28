@@ -25,7 +25,20 @@ const sendMetrics = (websocket) => {
         let sysMetrics = metrics();
         sysMetrics["messageType"] = "metric";
         websocket.send(JSON.stringify(sysMetrics), (error) => {
-            if (error) throw error;
+            if(error) {
+                if(websocket["readyState"] === WebSocket.CONNECTING) {
+                    console.log("Server is connecting.");
+                } else if (websocket["readyState"] === WebSocket.CLOSING) {
+                    console.log("Server is closing.");
+                } else if (websocket["readyState"] === WebSocket.OPEN) {
+                    console.log("Something critical wrong with the WebSocket connection.");
+                } else if(websocket["readyState"] === WebSocket.CLOSED) {
+                    console.log("Main ws server Shutted Down.");
+                    websocket.close();
+                } else {
+                    throw error;
+                }
+            }
         });
     }, 2000);
 };
